@@ -3,7 +3,7 @@ import Cors from 'cors';
 
 // Initializing the cors middleware
 // You can read more about the available options here: https://github.com/expressjs/cors#configuration-options
-const whitelist = process.env.WHITELISTED_DOMAINS ? process.env.WHITELISTED_DOMAINS.split(',') : '*' ;
+const whitelist = process.env.WHITELISTED_DOMAINS ? process.env.WHITELISTED_DOMAINS.split(',') : '*';
 
 const cors = Cors({
   origin: whitelist
@@ -49,7 +49,7 @@ export default async function (req, res) {
   const prompt = req.body.prompt || '';
   const prompt1 = "Do not explain, answer only in markdown code.You are a professional smart contract autitor converting an smart contract input into a professional vulnerabilty report. Your response must contains only the the identified vulnerabilites with explanations right next to vulnerablity heading. Also use subheadings if needed."
   const prompt2 = "Do not explain, answer only in code. You are a professional smart contract autitor converting smart contract input into auditable code. Your response must contains only the audited code with comments right next to vulnerable code."
-  
+
   const selectedValue = req.body.value || 'Audit My Smart Contract';
 
   /* const function getPrompt() {
@@ -64,8 +64,8 @@ export default async function (req, res) {
         }
       });
   } */
-  
-  
+
+
 
   if (prompt.trim().length === 0) {
     res.status(400).json({
@@ -80,18 +80,16 @@ export default async function (req, res) {
 
   try {
     const completion = await openai.createChatCompletion({
-      model:"gpt-3.5-turbo",
-      messages:[
-          {
-            "role": "user", 
-            "content": `${selectedValue == "Generate Vulnerability Report"? prompt1 : prompt2 } This is the user smart contract code: ${prompt}`
-          }
-        ]
+      model: "gpt-3.5-turbo",
+      messages: [
+        {
+          "role": "user",
+          "content": `${selectedValue == "Generate Vulnerability Report" ? prompt1 : prompt2} This is the user smart contract code: ${prompt}`
+        }
+      ]
     });
-  console.log(completion.data);
-  console.log("Sent: " + completion.data.choices[0].message.content);
-  res.status(200).json({ code: completion.data.choices[0].message.content});
-  } catch(error) {
+    res.status(200).json({ code: completion?.data?.choices[0]?.message?.content });
+  } catch (error) {
     // Consider adjusting the error handling logic for your use case
     if (error.response) {
       console.error(error.response.status, error.response.data);
