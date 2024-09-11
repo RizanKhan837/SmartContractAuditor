@@ -100,11 +100,11 @@ export default function Home() {
         <p className="text-gray-400 text-sm text-center mt-3">
           Made by{" "}
           <a
-            href="https://github.com/RizanKhan837"
+            href="https://github.com/ahmedashrafbmj"
             target="_blank"
             className="underline"
           >
-            Rizwan Akram & Abdul Hannan
+            Ahmed Ashraf
           </a>
         </p>
       </div>
